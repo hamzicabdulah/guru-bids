@@ -1,15 +1,7 @@
 const axios = require("axios");
 
 generateApplicantsModal();
-getApplicantsData().then(applicantsData => {
-  const showApplicantButtons = [
-    document.querySelector('a#anchrTotalProposalHeader'),
-    document.querySelector("#spnTotalApplicant > a")
-  ];
-  showApplicantButtons.forEach(button => {
-    button.addEventListener("click", addBidAmountInfo(applicantsData))
-  });
-});
+getApplicantsData().then(attachClickListeners);
 
 function generateApplicantsModal() {
   location.href = "javascript:AllApplicants(); void 0";
@@ -22,6 +14,16 @@ async function getApplicantsData() {
   });
   const applicantsData = JSON.parse(response.data.d).Result;
   return applicantsData;
+}
+
+function attachClickListeners(applicantsData) {
+  const showApplicantButtons = [
+    document.querySelector('a#anchrTotalProposalHeader'),
+    document.querySelector("#spnTotalApplicant > a")
+  ];
+  showApplicantButtons.forEach(button => {
+    button.addEventListener("click", addBidAmountInfo(applicantsData))
+  });
 }
 
 function addBidAmountInfo(applicantsData) {
