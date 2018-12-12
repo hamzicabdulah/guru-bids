@@ -1,20 +1,20 @@
 const axios = require("axios");
 
-/** */
 generateApplicantsModal();
 getApplicantsData().then(applicantsData => {
-  const showApplicantsButton = document.querySelector("#spnTotalApplicant > a")
-  showApplicantsButton.addEventListener("click", addBidAmountInfo(applicantsData));
+  const showApplicantButtons = [
+    document.querySelector('a#anchrTotalProposalHeader'),
+    document.querySelector("#spnTotalApplicant > a")
+  ];
+  showApplicantButtons.forEach(button => {
+    button.addEventListener("click", addBidAmountInfo(applicantsData))
+  });
 });
-/** */
 
-/** */
 function generateApplicantsModal() {
   location.href = "javascript:AllApplicants(); void 0";
 }
-/** */
 
-/** */
 async function getApplicantsData() {
   const applicantsDataURL = "https://www.guru.com/pro/JobDetail.aspx/GetJsonForApplicant_ProposalDetails";
   const response = await axios.post(applicantsDataURL, {
@@ -23,9 +23,7 @@ async function getApplicantsData() {
   const applicantsData = JSON.parse(response.data.d).Result;
   return applicantsData;
 }
-/** */
 
-/** */
 function addBidAmountInfo(applicantsData) {
   return () => {
     const applicantDivs = document.querySelectorAll("#modalApplicants > .clearfix");
@@ -51,4 +49,3 @@ function addBidAmountInfo(applicantsData) {
     });
   }
 }
-/** */
